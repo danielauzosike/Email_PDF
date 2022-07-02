@@ -3,14 +3,15 @@
 import json
 import locale
 import sys
-from emails import generate as EmailMessage
-
+from emails import generate as email_send
+from emails import generate as email_generate
+from reports import generate as report
 
 def load_data(filename):
     """Loads the contents of filename as a JSON file."""
     with open(filename) as json_file:
         new_data = json.load(json_file)
-        data = sorted(new_data, key=lambda i: i['total_sales'])
+        data = sorted(new_data, key=lambda x: x['total_sales'])
     return data
 
 
@@ -37,7 +38,7 @@ def process_data(data):
             item["revenue"] = item_revenue
             max_revenue = item
         # TODO: also handle max sales
-        if item["total_sales"] > max_sales["total_sales"]
+        if item["total_sales"] > max_sales["total_sales"]:
             max_sales = item
         # TODO: also handle most popular car_year
         if not item["car"]["car_year"] in best_car.keys():
@@ -53,7 +54,7 @@ def process_data(data):
         "The {} generated the most revenue: ${}".format(
             format_car(max_revenue["car"]), max_revenue["revenue"]),
         "The {} had the most sales: {}".format(max_sales["car"]["car_model"], max_sales["total_sales"]),
-        "The most popular year was {} with {} sales.".format(max_key, max_value),
+        "The most popular year was {} with {} sales.".format(max_key, max_value)
     ]
 
     return summary
